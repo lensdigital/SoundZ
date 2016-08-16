@@ -422,13 +422,11 @@ int16_t WaveHC::readWaveData(uint8_t *buff, uint16_t len) {
         remainingBytesInChunk = header.size;
         break;
       }
- 
-      // if not "data" then skip it! // LD: Need to fix for SerialFlash
+	 // if not "data" then skip it! // LD: Doesn't work w/ SerialFlash, but if check is not really needed. Instead just do seek to skip header.
       //if (!fd->seekCur(header.size)) {
        // return -1;
      // }
-	 // if not "data" then skip it! 
-	//	if (fd->seek(header.size) > fd->size() ) return -1;
+	  fd->seek(header.size); // Skips header and prevents burst of noise in playback of some files
     }
 	
   }
