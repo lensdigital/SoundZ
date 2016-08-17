@@ -40,6 +40,8 @@ void playcomplete(char *name) {
 // ---- Plays a file interrupting previous playback. Doesn't stop rest of program   ----
 // =======================================================================================
 void playfile(char *name) {
+  char *tmp; //Used for UPPERCASE conversion
+  for (tmp=name;*tmp!='\0';tmp++) *tmp = (char) toupper(*tmp); // Convert text to UPPERCASE
   f=SerialFlash.open (name);
   if (wave.isplaying) {// already playing something, so stop it!
     Serial.print ("Already playing file");
