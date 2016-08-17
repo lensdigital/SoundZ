@@ -9,6 +9,7 @@
 
 #define FLASH_CS 20 //Pin connected to SPI Flash chip select
 
+SerialFlashFile f; //Instance for current file
 WaveHC wave; 
 
 void setup() {
@@ -54,18 +55,24 @@ void playcomplete(char *name) {
   // now its done playing
    //Serial.println (F("End playback"));
 }
-
+// =======================================================================================
+// ---- Plays a file interrupting previous playback. Doesn't stop rest of program   ----
+// =======================================================================================
 void playfile(char *name) {
-  SerialFlashFile f; //Instance for current file
   f=SerialFlash.open (name);
   if (wave.isplaying) {// already playing something, so stop it!
     Serial.print ("Already playing file");
     wave.stop(); // stop it
+  }
+  if (!f) {
+    Serial.print (F("Error opening file ")); Serial.println (name);
+    return;
   }
    if (!wave.create(f)) {
     Serial.println (F("Not a valid WAV"));
    }
    wave.play();
 }
+
 
 
